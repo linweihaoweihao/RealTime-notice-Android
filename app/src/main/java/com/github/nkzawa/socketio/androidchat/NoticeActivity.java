@@ -31,13 +31,15 @@ public class NoticeActivity extends Activity {
         mSocket.on(Socket.EVENT_CONNECT_ERROR, onConnectError);
         mSocket.on(Socket.EVENT_CONNECT_TIMEOUT, onConnectError);
         textView  = (TextView)findViewById(R.id.message);
-        mSocket.on("message", onMessage);
-        mSocket.connect();
+        // 绑定监听消息 key - Emitter （key对应服务端发送的key 一一对应的）
+        mSocket.on("message", onMessage);  // mSocket.emit("new message", message); 可以实现发送消息
+        mSocket.connect(); // 实现连接
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        // 退出 取消监听
         mSocket.off("message", onMessage);
     }
 
